@@ -7,32 +7,25 @@
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <script>
-      // Function to simulate user interaction
-      function simulateUserInteraction() {
-        const event = new MouseEvent('click', {
-          view: window,
-          bubbles: true,
-          cancelable: true
-        });
-        document.body.dispatchEvent(event);
-      }
-
       // Initialize audio context to unlock Web Audio API
       function initAudioContext() {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const emptySource = audioCtx.createBufferSource();
-        emptySource.buffer = audioCtx.createBuffer(1, 1, 22050);
-        emptySource.connect(audioCtx.destination);
-        emptySource.start(0);
-        console.log("Audio context initialized");
+        if (window.AudioContext || window.webkitAudioContext) {
+          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const emptySource = audioCtx.createBufferSource();
+          emptySource.buffer = audioCtx.createBuffer(1, 1, 22050);
+          emptySource.connect(audioCtx.destination);
+          if (emptySource.start) {
+            emptySource.start(0);
+          } else if (emptySource.noteOn) {
+            emptySource.noteOn(0);
+          }
+          console.log("Audio context initialized");
+        }
       }
 
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          simulateUserInteraction();
-          initAudioContext();
-        }, 1000); // Wait 1 second before simulating the click and initializing audio context
-      });
+      document.addEventListener('click', () => {
+        initAudioContext();
+      }, { once: true }); // Ensure it runs only once
     </script>
   </head>
   <body style="background-color:black;">
@@ -52,6 +45,7 @@
       </div>
     </div>
     <script>
+
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
@@ -116,6 +110,7 @@
           fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
           };
+          initAudioContext(); // Initialize audio context when Unity instance is ready
         }).catch((message) => {
           alert(message);
         });
