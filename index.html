@@ -6,8 +6,39 @@
     <title>Unity WebGL Player | pas</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+      #start-button {
+        background-color: black;
+        color: white;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 15px 30px;
+        border: none;
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      #start-button:hover {
+        background-color: #333;
+      }
+
+      body {
+        margin: 0;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+    </style>
     <script>
-      // Initialize audio context to unlock Web Audio API
       function initAudioContext() {
         if (window.AudioContext || window.webkitAudioContext) {
           const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -112,7 +143,7 @@
           fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
           };
-          initAudioContext(); // Initialize audio context when Unity instance is ready
+          initAudioContext();
         }).catch((message) => {
           alert(message);
         });
