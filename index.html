@@ -6,6 +6,20 @@
     <title>Unity WebGL Player | pas</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <script>
+      function simulateUserInteraction() {
+        const event = new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: true
+        });
+        document.body.dispatchEvent(event);
+      }
+
+      window.addEventListener('load', () => {
+        setTimeout(simulateUserInteraction, 1000); // Wait 1 second before simulating the click
+      });
+    </script>
   </head>
   <body style="background-color:black;">
     <div id="unity-container" class="unity-desktop">
